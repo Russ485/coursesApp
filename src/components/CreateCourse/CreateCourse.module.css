@@ -1,0 +1,72 @@
+.form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  box-sizing: border-box;
+  margin: 0px -10px;
+  padding: 2rem;
+}
+
+.control {
+  margin-bottom: 0.5rem;
+  width: 50%;
+}
+
+.control label {
+  display: block;
+  font-weight: bold;
+  margin: 0.5rem;
+}
+
+.control textarea {
+  display: block;
+  font: inherit;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  padding: 0.25rem;
+  width: 100%;
+}
+
+.control p {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.container {
+  width: 50%;
+}
+
+.list {
+  list-style: none;
+  margin: 0 5px;
+  padding: 0;
+  width: 90%;
+  max-width: 90%;
+  height: 300px;
+  overflow-y: auto;
+}
+
+.list li {
+  font-weight: bold;
+  margin: 10px;
+  display: flex;
+}
+
+.list div {
+  margin: 1rem;
+}
+
+.list h2,
+p {
+  margin-left: 1.5rem;
+}
+
+.author {
+  width: 250px;
+}
+
+.duration {
+  margin-left: 5px;
+}
