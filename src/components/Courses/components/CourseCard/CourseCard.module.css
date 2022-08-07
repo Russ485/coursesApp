@@ -27,3 +27,24 @@
   word-wrap: break-word;
   margin-left: 10px;
 }
+
+@media (max-width: 478px) {
+  .item {
+    display: block;
+  }
+
+  .content {
+    text-align: justify;
+    padding: 0.5rem;
+    width: 90%;
+  }
+
+  .content h3 {
+    text-align: center;
+  }
+
+  .data {
+    width: 80%;
+    margin: 0.5rem;
+  }
+}

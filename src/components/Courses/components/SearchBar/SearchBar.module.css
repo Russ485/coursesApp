@@ -2,3 +2,10 @@
   display: flex;
   padding: 1rem;
 }
+
+@media (max-width: 478px) {
+  .container {
+    display: block;
+    padding: 1rem;
+  }
+}

@@ -70,3 +70,18 @@ p {
 .duration {
   margin-left: 5px;
 }
+
+@media (max-width: 478px) {
+  .form {
+    display: block;
+  }
+
+  .control {
+    margin-bottom: 0.5rem;
+    width: 100%;
+  }
+
+  .container {
+    width: 100%;
+  }
+}

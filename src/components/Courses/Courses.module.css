@@ -10,3 +10,9 @@
   width: 90%;
   max-width: 90%;
 }
+
+@media (max-width: 478px) {
+  .container {
+    display: block;
+  }
+}

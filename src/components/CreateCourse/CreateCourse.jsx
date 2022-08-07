@@ -144,6 +144,13 @@ const CreateCourse = (props) => {
             setAddAuthorInput("");
           }}
         />
+        <div>
+          <Button
+            type={"submit"}
+            text={"CREATE COURSE"}
+            onClick={submitHandler}
+          />
+        </div>
       </div>
       <div className={classes.container}>
         <ul className={classes.list}>
@@ -163,7 +170,6 @@ const CreateCourse = (props) => {
           ))}
         </ul>
       </div>
-      <Button type={"submit"} text={"Create course"} onClick={submitHandler} />
     </form>
   );
 };
