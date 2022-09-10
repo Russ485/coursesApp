@@ -105,8 +105,8 @@ const Login = () => {
             <LoadingSpinner />
           ) : (
             <p className={classes.link}>
-              If You not have an account you can{" "}
-              <Link to={"/registration"}>Registration</Link>
+              If you do not have an account you can{" "}
+              <Link to={"/registration"}>register here</Link>
             </p>
           )}
         </div>

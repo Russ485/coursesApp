@@ -10,6 +10,7 @@
   text-align: center;
   color: white;
   animation: 1.5s show ease;
+  box-shadow: 0px 3px 12px 3px #797979;
 }
 
 .auth h1 {
