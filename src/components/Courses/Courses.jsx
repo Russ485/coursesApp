@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import React, { useContext } from "react";
 import CourseCard from "./components/CourseCard/CourseCard";
 import classes from "./Courses.module.css";
@@ -7,6 +8,7 @@ import CourseContext from "../../store/course-context";
 import { pipeDuration } from "../../helpers/pipeDuration";
 
 const Courses = (props) => {
+  const navigate = useNavigate();
   const coursesCtx = useContext(CourseContext);
   const courses = coursesCtx.courses;
   const authors = coursesCtx.authors;
@@ -27,9 +29,10 @@ const Courses = (props) => {
         <SearchBar />
         <Button
           text={"Add new Course"}
-          onClick={coursesCtx.showAddCourseForm}
+          onClick={() => navigate("/courses/add")}
         />
       </section>
+
       <ul className={classes.list}>
         {courses.map((course) => (
           <CourseCard

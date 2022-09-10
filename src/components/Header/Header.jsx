@@ -1,19 +1,26 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Logo } from "./components/Logo/Logo";
+import { Link } from "react-router-dom";
 import styles from "./Header.module.css";
 import Button from "../../common/Button/Button";
+import CourseContext from "../../store/course-context";
 
 const Header = () => {
+  const courseCtx = useContext(CourseContext);
   return (
     <div>
       <header className={styles.header}>
-        <Logo />
+        <Link to={"/courses"}>
+          <Logo />
+        </Link>
         <nav>
           <ul>
-            <li>Ruslan</li>
-            <li>
-              <Button text={"Logout"} />
-            </li>
+            <li>{courseCtx.userName}</li>
+            {courseCtx.isLoggedIn ? (
+              <li>
+                <Button text={"Logout"} onClick={courseCtx.logout} />
+              </li>
+            ) : null}
           </ul>
         </nav>
       </header>

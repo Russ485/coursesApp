@@ -1,16 +1,22 @@
+import { useNavigate, Link } from "react-router-dom";
 import classes from "./CreateCourse.module.css";
-import { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext } from "react";
 import Button from "../../common/Button/Button";
 import CourseContext from "../../store/course-context";
 import { dateGenerator } from "../../helpers/dateGenerator";
 import { pipeDuration } from "../../helpers/pipeDuration";
 import Input from "../../common/Input/Input";
+import Modal from "../../UI/Modal";
 
 const CreateCourse = (props) => {
+  const navigate = useNavigate();
   const [courseAuthorsId, setCourseAuthorsId] = useState([]);
   const [selectedCourseAuthors, setSelectedCourseAuthors] = useState([]);
   const [duration, setDuration] = useState("00:00 hours");
   const [addAuthorInput, setAddAuthorInput] = useState("");
+
+  const [showModal, setShowModal] = useState(false);
+  const [modalText, setModalText] = useState("");
 
   const courseCtx = useContext(CourseContext);
   const [authors, setAuthors] = useState(courseCtx.authors);
@@ -21,13 +27,22 @@ const CreateCourse = (props) => {
 
   const addAuthorInputRef = useRef();
 
+  function showModalHandler() {
+    setShowModal(true);
+  }
+
+  function closeModalHandler() {
+    setShowModal(false);
+  }
+
   const addAuthorInputChangeHandler = (e) => {
     setAddAuthorInput(e.target.value);
   };
 
   const addAuthorHandler = (author) => {
     if (author.length < 2) {
-      alert("Length of author couldn't be less then two characters");
+      showModalHandler();
+      setModalText("Length of author couldn't be less then two characters");
     } else {
       let id = String(Math.random());
       setAuthors((prevState) => prevState.concat({ name: author, id: id }));
@@ -71,106 +86,115 @@ const CreateCourse = (props) => {
       descriptionInputRef.current.value.trim().length === 0 ||
       courseAuthorsId.length === 0
     ) {
-      alert("Please, fill in all fields");
+      showModalHandler();
+      setModalText("Please, fill in all fields");
     } else {
-      courseCtx.showAddCourseForm();
+      //courseCtx.showAddCourseForm();
       courseCtx.addCourse({
         ...enteredData,
         authors: courseAuthorsId,
       });
+
+      navigate("/courses");
     }
   };
 
   return (
-    <form className={classes.form} onSubmit={submitHandler}>
-      <div className={classes.control}>
-        <Input
-          label={"Course Title: "}
-          ref={titleInputRef}
-          type="text"
-          id="title"
-        />
+    <React.Fragment>
+      <form className={classes.form} onSubmit={submitHandler}>
+        <div className={classes.control}>
+          <Input
+            label={"Course Title: "}
+            ref={titleInputRef}
+            type="text"
+            id="title"
+          />
 
-        <Input
-          label={"Duration: "}
-          onChange={() =>
-            setDuration(pipeDuration(durationInputRef.current.value))
-          }
-          ref={durationInputRef}
-          type="number"
-          id="duration"
-        />
-        <p className={classes.duration}>Duration {duration} </p>
+          <Input
+            label={"Duration: "}
+            onChange={() =>
+              setDuration(pipeDuration(durationInputRef.current.value))
+            }
+            ref={durationInputRef}
+            type="number"
+            id="duration"
+          />
+          <p className={classes.duration}>Duration {duration} </p>
 
-        <label htmlFor="description">Description</label>
-        <textarea
-          ref={descriptionInputRef}
-          rows="5"
-          required
-          id="description"
-        />
-      </div>
-      <div className={classes.container}>
-        <ul className={classes.list}>
-          <h2>Authors</h2>
-          {authors.map((author) => (
-            <li key={author.id} id={author.id}>
-              <div className={classes.author}>{author.name}</div>
-              <Button
-                text={"Add"}
-                type={"button"}
-                onClick={() => {
-                  selectAuthorHandler(author);
-                }}
-              />
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className={classes.control}>
-        <Input
-          label={"Add New Author: "}
-          ref={addAuthorInputRef}
-          type="string"
-          id="addAuthor"
-          value={addAuthorInput}
-          onChange={addAuthorInputChangeHandler}
-        />
-        <Button
-          text={"Add New Author"}
-          type={"button"}
-          onClick={() => {
-            addAuthorHandler(addAuthorInputRef.current.value);
-            setAddAuthorInput("");
-          }}
-        />
-        <div>
-          <Button
-            type={"submit"}
-            text={"CREATE COURSE"}
-            onClick={submitHandler}
+          <label htmlFor="description">Description</label>
+          <textarea
+            ref={descriptionInputRef}
+            rows="5"
+            required
+            id="description"
           />
         </div>
-      </div>
-      <div className={classes.container}>
-        <ul className={classes.list}>
-          <h2>Course Authors</h2>
-          {selectedCourseAuthors.length === 0 && (
-            <p>You don't add any authors. Please add at least one of them</p>
-          )}
-          {selectedCourseAuthors.map((author) => (
-            <li key={author.id} id={author.id}>
-              <div className={classes.author}>{author.name}</div>
-              <Button
-                text={"Delete"}
-                type={"button"}
-                onClick={() => deleteAuthorHandler(author)}
-              />
-            </li>
-          ))}
-        </ul>
-      </div>
-    </form>
+        <div className={classes.container}>
+          <ul className={classes.list}>
+            <h2>Authors</h2>
+            {authors.map((author) => (
+              <li key={author.id} id={author.id}>
+                <div className={classes.author}>{author.name}</div>
+                <Button
+                  text={"Add"}
+                  type={"button"}
+                  onClick={() => {
+                    selectAuthorHandler(author);
+                  }}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className={classes.control}>
+          <Input
+            label={"Add New Author: "}
+            ref={addAuthorInputRef}
+            type="string"
+            id="addAuthor"
+            value={addAuthorInput}
+            onChange={addAuthorInputChangeHandler}
+          />
+          <Button
+            text={"Add New Author"}
+            type={"button"}
+            onClick={() => {
+              addAuthorHandler(addAuthorInputRef.current.value);
+              setAddAuthorInput("");
+            }}
+          />
+          <div>
+            <Button
+              type={"submit"}
+              text={"CREATE COURSE"}
+              onClick={submitHandler}
+            />
+          </div>
+        </div>
+        <div className={classes.container}>
+          <ul className={classes.list}>
+            <h2>Course Authors</h2>
+            {selectedCourseAuthors.length === 0 && (
+              <p>You don't add any authors. Please add at least one of them</p>
+            )}
+            {selectedCourseAuthors.map((author) => (
+              <li key={author.id} id={author.id}>
+                <div className={classes.author}>{author.name}</div>
+                <Button
+                  text={"Delete"}
+                  type={"button"}
+                  onClick={() => deleteAuthorHandler(author)}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+        <Link to={"/courses"}>
+          <Button type="button" text={"<<< Back to Courses"} />
+        </Link>
+      </form>
+      {showModal && <Modal text={modalText} onClick={closeModalHandler} />}
+    </React.Fragment>
   );
 };
 

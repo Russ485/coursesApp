@@ -1,5 +1,6 @@
 import Button from "../../../../common/Button/Button";
 import classes from "./CourseCard.module.css";
+import { Link } from "react-router-dom";
 
 const CourseCard = (props) => {
   return (
@@ -12,7 +13,9 @@ const CourseCard = (props) => {
         <p>{`Duration: ${props.duration}`}</p>
         <p>{`Created: ${props.creationDate}`}</p>
         <p>{`Authors: ${props.authors}`}</p>
-        <Button text={"Show Course"} />
+        <Link to={`/courses/${props.id}`}>
+          <Button text={"Show Course"} />
+        </Link>
       </div>
     </li>
   );
